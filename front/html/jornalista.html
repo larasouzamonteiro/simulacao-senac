@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="../img/logo-sis.png" type="image/png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+            rel="stylesheet">
+
+        <link rel="stylesheet" href="../css/style.css">
+
+        <title>Login do jornalista - Simulação Senac</title>
+    </head>
+
+    <body class="menu-fechado">
+        <aside class="lateral">
+            <button class="encolher" type="button" title="Menu" onclick="encolherMenu()">
+                <span class="icone icone-seta"></span>
+            </button>
+
+            <a href="index.html" class="lateral-marca">
+                <img src="../img/logo-sis.png" alt="Logo SIS">
+                <strong>Simulação Senac</strong>
+                <small>Conferência de São Francisco</small>
+            </a>
+
+            <nav class="menu">
+                <a href="index.html" title="Início">
+                    <span class="icone icone-inicio"></span>
+                    <span>Início</span>
+                </a>
+                <a href="index.html#pauta" title="Pauta">
+                    <span class="icone icone-pauta"></span>
+                    <span>Pauta</span>
+                </a>
+                <a href="index.html#delegacoes" title="Delegações">
+                    <span class="icone icone-delegacoes"></span>
+                    <span>Delegações</span>
+                </a>
+                <a href="noticias.html" title="Notícias">
+                    <span class="icone icone-noticias"></span>
+                    <span>Notícias</span>
+                </a>
+            </nav>
+
+            <div class="lateral-baixo">
+                <a href="jornalista.html" class="login-topo" id="botaoLogin">
+                    <span class="icone icone-usuario"></span>
+                    <span id="textoLogin">Login</span>
+                </a>
+                <button class="modo-botao" id="botaoTema" type="button" onclick="alternarTema()">
+                    <span class="icone icone-sol"></span>
+                    <span class="icone icone-lua"></span>
+                </button>
+            </div>
+
+            <button class="menu-botao" onclick="abrirMenu()">
+                <span class="icone icone-menu"></span>
+            </button>
+        </aside>
+
+        <section class="topo-noticias curto">
+            <h1 class="titulo-barra">Imprensa</h1>
+            <p>Área de publicação do jornal da conferência.</p>
+        </section>
+
+        <main class="painel-noticias pagina-jornalista">
+
+            <section class="login-caixa" id="telaLogin" hidden>
+                <div class="login-abas">
+                    <button class="ativo" id="abaEntrar" onclick="mostrarAba('entrar')">Entrar</button>
+                    <button id="abaCriar" onclick="mostrarAba('criar')">Criar conta</button>
+                </div>
+
+                <div class="msg" id="msgLogin"></div>
+
+                <div id="formEntrar">
+
+                    <div class="campo">
+                        <label for="loginEmail">E-mail</label>
+                        <input type="email" id="loginEmail" autocomplete="email">
+                    </div>
+
+                    <div class="campo">
+                        <label for="loginSenha">Senha</label>
+                        <input type="password" id="loginSenha" autocomplete="current-password" onkeydown="apertouEnter(event, entrar)">
+                    </div>
+
+                    <button class="botao botao-azul botao-largo" onclick="entrar()">Entrar</button>
+                </div>
+
+                <div id="formCriar" hidden>
+
+                    <div class="campo">
+                        <label for="cadNome">Nome completo</label>
+                        <input type="text" id="cadNome" autocomplete="name">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cadEmail">E-mail</label>
+                        <input type="email" id="cadEmail" autocomplete="email">
+                        <small class="dica">
+                            Com e-mail do Senac (@alunos.sc.senac.br, @sc.senac.br ou @prof.sc.senac.br) a conta é liberada na hora. Outros e-mails passam pela
+                            aprovação da organização.
+                        </small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cadSenha">Senha</label>
+                        <input type="password" id="cadSenha" autocomplete="new-password" placeholder="Pelo menos 6 caracteres">
+                    </div>
+
+                    <button class="botao botao-azul botao-largo" onclick="criarConta()">Criar conta</button>
+                </div>
+
+                <div id="formCodigo" hidden>
+                    <p>
+                        Digite o código de 6 números enviado para
+                        <b id="emailCodigo"></b>
+                        .
+                    </p>
+
+                    <div class="campo">
+                        <label for="codigo">Código</label>
+                        <input
+                            type="text"
+                            id="codigo"
+                            inputmode="numeric"
+                            maxlength="6"
+                            class="campo-codigo"
+                            onkeydown="apertouEnter(event, confirmarCodigo)">
+                    </div>
+
+                    <button class="botao botao-azul botao-largo" onclick="confirmarCodigo()">Confirmar</button>
+                    <button class="botao-texto" onclick="reenviarCodigo()">Enviar outro código</button>
+                </div>
+            </section>
+
+            <section class="login-caixa" id="telaSenha" hidden>
+                <h1>Senha da imprensa</h1>
+                <p>
+                    Olá,
+                    <b id="nomeSenha"></b>
+                    . Para publicar, digite a senha da imprensa passada pela organização.
+                </p>
+                <div class="msg" id="msgSenha"></div>
+
+                <div class="campo">
+                    <label for="senhaImprensa">Senha da imprensa</label>
+                    <input type="password" id="senhaImprensa" onkeydown="apertouEnter(event, liberarImprensa)">
+                </div>
+
+                <button class="botao botao-azul botao-largo" onclick="liberarImprensa()">Entrar na imprensa</button>
+                <button class="botao-texto" onclick="sair()">Sair da conta</button>
+            </section>
+
+            <section class="login-caixa" id="telaEspera" hidden>
+                <h1>Conta em análise</h1>
+                <p>Seu e-mail foi confirmado. Como ele não é do Senac, a organização precisa liberar sua conta antes de você publicar.</p>
+                <button class="botao botao-linha" onclick="sair()">Sair</button>
+            </section>
+
+            <section id="telaPainel" hidden>
+
+                <div class="painel-cabeca">
+                    <h2 id="tituloForm">Escrever notícia</h2>
+                    <span class="quem">
+                        Conectado como
+                        <b id="nomeConectado"></b>
+                    </span>
+                    <button class="botao botao-linha" onclick="sair()">Sair</button>
+                </div>
+
+                <div class="painel">
+                    <div class="formulario">
+                        <div class="msg" id="msgPublicar"></div>
+
+                        <div class="campo">
+                            <label for="titulo">Título</label>
+                            <input type="text" id="titulo" placeholder="Ex.: Brasil defende a igualdade entre os países">
+                        </div>
+
+                        <div class="duas-colunas">
+
+                            <div class="campo">
+                                <label for="categoria">Categoria</label>
+                                <select id="categoria"></select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="autor">Assinado por</label>
+                                <input type="text" id="autor">
+                            </div>
+                        </div>
+
+                        <div class="campo">
+                            <label for="resumo">Linha fina</label>
+                            <input type="text" id="resumo" placeholder="Uma frase que resume a notícia">
+                        </div>
+
+                        <div class="campo">
+                            <label for="conteudo">Texto</label>
+                            <textarea id="conteudo" placeholder="Pule uma linha entre um parágrafo e outro."></textarea>
+                        </div>
+
+                        <div class="campo">
+                            <label>Foto</label>
+                            <label class="foto-caixa" for="imagem">
+                                <img class="previa" id="previa" alt="">
+                                <span class="foto-texto">
+                                    <b>Escolher foto</b>
+                                    <small>JPG, PNG, WEBP ou GIF, até 2 MB</small>
+                                </span>
+                            </label>
+
+                            <input type="file" id="imagem" accept="image/jpeg,image/png,image/webp,image/gif" onchange="escolheuFoto()" hidden>
+                            <label class="marcar" id="campoRemover" hidden>
+                                <input type="checkbox" id="removerImagem">
+                                Tirar a foto desta notícia
+                            </label>
+                        </div>
+
+                        <div class="form-pe">
+                            <label class="marcar">
+                                <input type="checkbox" id="destaque">
+                                Usar como manchete
+                            </label>
+
+                            <div class="acoes-form">
+                                <button class="botao botao-linha" id="botaoCancelar" onclick="limparFormulario()" hidden>Cancelar</button>
+                                <button class="botao botao-azul" id="botaoPublicar" onclick="publicar()">Publicar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="lista-publicadas">
+                        <h2>Já publicadas</h2>
+                        <ul class="publicadas" id="listaPublicadas">
+                            <li><div class="girando"></div></li>
+                        </ul>
+                    </aside>
+                </div>
+
+                <div class="admin">
+
+                    <div class="admin-bloco" id="blocoContas" hidden>
+                        <h2>Contas da imprensa</h2>
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Situação</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaUsuarios"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="admin-bloco">
+                        <h2>Histórico</h2>
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>Quando</th>
+                                    <th>Quem</th>
+                                    <th>O que fez</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaRegistros"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="rodape">
+            <div class="container rodape-grade">
+                <div class="rodape-marca">
+                    <a href="index.html" class="marca">
+                        <img src="../img/logo-sis-texto.png" alt="Logo SIS - Simulação Senac">
+                        <span>
+                            <strong>Simulação Senac</strong>
+                            <small>Conferência de São Francisco</small>
+                        </span>
+                    </a>
+                    <p>Simulação do Senac da Conferência de São Francisco, que criou a ONU em 1945.</p>
+                </div>
+
+                <div>
+                    <h4>Site</h4>
+                    <a href="index.html">Início</a>
+                    <a href="index.html#pauta">Pauta</a>
+                    <a href="index.html#delegacoes">Delegações</a>
+                    <a href="noticias.html">Notícias</a>
+                </div>
+
+                <div>
+                    <h4>Imprensa</h4>
+                    <a href="noticias.html">Jornal da conferência</a>
+                    <a href="jornalista.html">Área do jornalista</a>
+                </div>
+
+                <div>
+                    <h4>A conferência</h4>
+                    <p>Realizada pelos alunos do Senac Criciúma em 2026, com delegações reunidas para redigir a Carta das Nações Unidas.</p>
+                </div>
+            </div>
+
+            <div class="container rodape-agradece">
+                Agradecimentos ao
+                <b>Senac Criciúma</b>
+                , por tornar esta simulação possível, e ao Secretariado: Secretário-Geral
+                <b>Prof. Alex da Rosa</b>
+                , Secretária-Geral
+                <b>Lara de Souza Monteiro</b>
+                , Secretária Administrativa
+                <b>Isabely Casagrande</b>
+                e Secretário Acadêmico
+                <b>Iago Rodrigues Venâncio</b>
+                .
+            </div>
+
+            <div class="container rodape-base">
+                <span>
+                    Site desenvolvido pela
+                    <b>Equipe Ameli</b>
+                </span>
+                <span class="rodape-links">
+                    <a href="mailto:contato.amelidev@gmail.com">contato.amelidev@gmail.com</a>
+                    <a href="https://www.instagram.com/ameli.dev/" target="_blank" rel="noopener">@ameli.dev</a>
+                    <a href="https://www.instagram.com/senaccriciuma/" target="_blank" rel="noopener">@senaccriciuma</a>
+                </span>
+            </div>
+        </footer>
+
+        <script src="../js/script.js"></script>
+        <script src="../js/jornalista.js"></script>
+
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
+        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+        <script>
+            new window.VLibras.Widget('https://vlibras.gov.br/app')
+        </script>
+    </body>
+</html>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="../img/logo-sis.png" type="image/png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+            rel="stylesheet">
+
+        <link rel="stylesheet" href="../css/style.css">
+
+        <title>Notícias - Simulação Senac</title>
+    </head>
+
+    <body class="pagina-noticias menu-fechado">
+        <aside class="lateral">
+            <button class="encolher" type="button" title="Menu" onclick="encolherMenu()">
+                <span class="icone icone-seta"></span>
+            </button>
+
+            <a href="index.html" class="lateral-marca">
+                <img src="../img/logo-sis.png" alt="Logo SIS">
+                <strong>Simulação Senac</strong>
+                <small>Conferência de São Francisco</small>
+            </a>
+
+            <nav class="menu">
+                <a href="index.html" title="Início">
+                    <span class="icone icone-inicio"></span>
+                    <span>Início</span>
+                </a>
+                <a href="index.html#pauta" title="Pauta">
+                    <span class="icone icone-pauta"></span>
+                    <span>Pauta</span>
+                </a>
+                <a href="index.html#delegacoes" title="Delegações">
+                    <span class="icone icone-delegacoes"></span>
+                    <span>Delegações</span>
+                </a>
+                <a href="noticias.html" class="ativo" title="Notícias">
+                    <span class="icone icone-noticias"></span>
+                    <span>Notícias</span>
+                </a>
+            </nav>
+
+            <div class="lateral-baixo">
+                <a href="jornalista.html" class="login-topo" id="botaoLogin">
+                    <span class="icone icone-usuario"></span>
+                    <span id="textoLogin">Login</span>
+                </a>
+                <button class="modo-botao" id="botaoTema" type="button" onclick="alternarTema()">
+                    <span class="icone icone-sol"></span>
+                    <span class="icone icone-lua"></span>
+                </button>
+            </div>
+
+            <button class="menu-botao" onclick="abrirMenu()">
+                <span class="icone icone-menu"></span>
+            </button>
+        </aside>
+
+        <section class="topo-noticias">
+            <h1 class="titulo-barra">Notícias</h1>
+            <p id="cobertura">Cobertura oficial da Simulação Senac</p>
+        </section>
+
+        <section class="painel-noticias">
+
+            <div class="painel-topo">
+                <div class="filtros" id="filtros"><button class="ativo" onclick="filtrar(this, '')">Todas</button></div>
+                <label class="busca busca-clara">
+                    <span class="icone icone-busca"></span>
+                    <input type="text" id="busca" placeholder="Buscar notícias" oninput="buscarNoticia()">
+                </label>
+            </div>
+
+            <section class="capa-jornal" id="capa" hidden>
+                <a class="manchete" id="manchete"></a>
+
+                <aside class="coluna-destaques" id="lista-destaques"></aside>
+            </section>
+
+            <div class="ultimas-topo">
+                <h2 class="titulo-barra" id="tituloLista">Todas as notícias</h2>
+                <div class="dias" id="dias" hidden></div>
+            </div>
+
+            <p class="aviso" id="semResultado" hidden>Nenhuma notícia encontrada.</p>
+            <div class="lista-noticias" id="grade-noticias">
+                <div class="girando"></div>
+            </div>
+        </section>
+
+        <footer class="rodape">
+            <div class="container rodape-grade">
+                <div class="rodape-marca">
+                    <a href="index.html" class="marca">
+                        <img src="../img/logo-sis-texto.png" alt="Logo SIS - Simulação Senac">
+                        <span>
+                            <strong>Simulação Senac</strong>
+                            <small>Conferência de São Francisco</small>
+                        </span>
+                    </a>
+                    <p>Simulação do Senac da Conferência de São Francisco, que criou a ONU em 1945.</p>
+                </div>
+
+                <div>
+                    <h4>Site</h4>
+                    <a href="index.html">Início</a>
+                    <a href="index.html#pauta">Pauta</a>
+                    <a href="index.html#delegacoes">Delegações</a>
+                    <a href="noticias.html">Notícias</a>
+                </div>
+
+                <div>
+                    <h4>Imprensa</h4>
+                    <a href="noticias.html">Jornal da conferência</a>
+                    <a href="jornalista.html">Área do jornalista</a>
+                </div>
+
+                <div>
+                    <h4>A conferência</h4>
+                    <p>Realizada pelos alunos do Senac Criciúma em 2026, com delegações reunidas para redigir a Carta das Nações Unidas.</p>
+                </div>
+            </div>
+
+            <div class="container rodape-agradece">
+                Agradecimentos ao
+                <b>Senac Criciúma</b>
+                , por tornar esta simulação possível, e ao Secretariado: Secretário-Geral
+                <b>Prof. Alex da Rosa</b>
+                , Secretária-Geral
+                <b>Lara de Souza Monteiro</b>
+                , Secretária Administrativa
+                <b>Isabely Casagrande</b>
+                e Secretário Acadêmico
+                <b>Iago Rodrigues Venâncio</b>
+                .
+            </div>
+
+            <div class="container rodape-base">
+                <span>
+                    Site desenvolvido pela
+                    <b>Equipe Ameli</b>
+                </span>
+                <span class="rodape-links">
+                    <a href="mailto:contato.amelidev@gmail.com">contato.amelidev@gmail.com</a>
+                    <a href="https://www.instagram.com/ameli.dev/" target="_blank" rel="noopener">@ameli.dev</a>
+                    <a href="https://www.instagram.com/senaccriciuma/" target="_blank" rel="noopener">@senaccriciuma</a>
+                </span>
+            </div>
+        </footer>
+
+        <script src="../js/script.js"></script>
+        <script src="../js/noticias.js"></script>
+
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
+        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+        <script>
+            new window.VLibras.Widget('https://vlibras.gov.br/app')
+        </script>
+    </body>
+</html>
