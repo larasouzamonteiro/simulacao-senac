@@ -240,7 +240,7 @@ const callback = (req, res) => {
                     responder(res, 401, {'error': 'Senha da imprensa incorreta.'})
                 }
                 else{
-                    sessao.liberada = false
+                    sessao.liberada = true
                     responder(res, 200, {'message': 'Área da imprensa liberada.'})
                 }
             }
