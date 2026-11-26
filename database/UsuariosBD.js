@@ -37,7 +37,7 @@ class UsuariosBD{
     }
 
     static tipoInicial(email){
-        var admin = 'lara.monteiro@alunos.sc.senac.br'
+        var admin = 'lara.monteiro@alunos.sc.senac.br' //para botar outro admin é colocando na variavel de ambiente admin 
         if(process.env.ADMIN_EMAIL){
             admin = process.env.ADMIN_EMAIL.toLowerCase()
         }
