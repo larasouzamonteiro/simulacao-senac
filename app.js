@@ -11,6 +11,9 @@ process.env.TZ = 'America/Sao_Paulo'
 
 var senhaJornalista = process.env.SENHA_JORNALISTA
 
+// A imagem de até 2 MiB do formulário chega em base64, junto com o texto da notícia.
+const LIMITE_CORPO_POST = 4 * 1024 * 1024
+
 var logados = []
 
 function buscarSessao(req){
@@ -120,6 +123,67 @@ function responderResultado(res, resposta){
     }
 }
 
+function lerCorpoPost(req, res, processar){
+    const partes = []
+    let tamanho = 0
+
+    req.on('error', () => {
+        partes.length = 0
+        if(!res.destroyed && !res.writableEnded){
+            responder(res, 400, {'error': 'Não foi possível ler o corpo da requisição.'})
+        }
+    })
+
+    function rejeitarTamanho(){
+        partes.length = 0
+        res.setHeader('Connection', 'close')
+        responder(res, 413, {'error': 'O corpo da requisição excede o limite de 4 MiB.'})
+    }
+
+    if(Number(req.headers['content-length']) > LIMITE_CORPO_POST){
+        rejeitarTamanho()
+        return
+    }
+
+    req.on('data', (parte) => {
+        if(res.writableEnded){
+            return
+        }
+
+        tamanho += parte.length
+        if(tamanho > LIMITE_CORPO_POST){
+            rejeitarTamanho()
+            return
+        }
+        partes.push(parte)
+    })
+
+    req.on('end', () => {
+        if(res.writableEnded){
+            return
+        }
+
+        let dados = {}
+        if(tamanho > 0){
+            try{
+                dados = JSON.parse(Buffer.concat(partes, tamanho).toString('utf8'))
+            }catch{
+                responder(res, 400, {'error': 'O corpo da requisição contém JSON inválido.'})
+                return
+            }
+        }
+
+        // Os formulários enviam apenas campos simples, com null para valores opcionais.
+        if(dados === null || typeof dados !== 'object' || Array.isArray(dados) ||
+            Object.values(dados).some(valor => valor !== null && typeof valor === 'object')){
+            responder(res, 400, {'error': 'Envie um objeto JSON com campos simples.'})
+            return
+        }
+
+        processar(dados)
+    })
+}
+
 const callback = (req, res) => {
     var rota = url.parse(req.url, true)
 
@@ -175,18 +239,7 @@ const callback = (req, res) => {
     }
 
     else if(req.method == 'POST'){
-        var body = ''
-
-        req.on('data', (data) => {
-            body += data
-        })
-
-        req.on('end', () => {
-            var dados = {}
-            if(body != ''){
-                dados = JSON.parse(body)
-            }
-
+        lerCorpoPost(req, res, (dados) => {
             var usuario = buscarUsuario(req)
 
             if(rota.pathname == '/cadastro'){
