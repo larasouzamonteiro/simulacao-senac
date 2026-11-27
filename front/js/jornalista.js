@@ -132,7 +132,7 @@ function entrar(){
             return
         }
 
-        localStorage.setItem('token', dados.token)
+        localStorage.setItem(CHAVE_TOKEN, dados.token)
         document.getElementById('msgLogin').className = 'msg'
         verificarLogin()
     })
@@ -148,7 +148,7 @@ function liberarImprensa(){
             mostrarMensagem('msgSenha', dados.error, 'erro')
 
             if(dados.sair){
-                localStorage.removeItem('token')
+                localStorage.removeItem(CHAVE_TOKEN)
                 verificarLogin()
             }
             return
@@ -161,7 +161,7 @@ function liberarImprensa(){
 
 function sair(){
     enviar('/logout', {}, function(){
-        localStorage.removeItem('token')
+        localStorage.removeItem(CHAVE_TOKEN)
         mostrarAba('entrar')
         verificarLogin()
     })
@@ -332,7 +332,7 @@ function publicar(){
             mostrarMensagem('msgPublicar', dados.error, 'erro')
 
             if(dados.sair){
-                localStorage.removeItem('token')
+                localStorage.removeItem(CHAVE_TOKEN)
                 verificarLogin()
             }
             return
