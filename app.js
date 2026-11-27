@@ -81,7 +81,7 @@ function tipoDoArquivo(caminho){
 
 function entregarArquivo(pathname, res){
     if(pathname == '/'){
-        res.writeHead(302, {'Location': '/html/index.html'})
+        res.writeHead(302, {'Location': 'html/index.html'})
         res.end()
         return
     }

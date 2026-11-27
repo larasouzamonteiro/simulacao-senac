@@ -1,4 +1,6 @@
-var SERVIDOR = ''
+var SERVIDOR = new URL('..', document.currentScript.src).pathname.replace(/\/$/, '')
+var CHAVE_TOKEN = SERVIDOR ? SERVIDOR + ':token' : 'token'
+var CHAVE_TEMA = SERVIDOR ? SERVIDOR + ':temaSite' : 'temaSite'
 
 function buscar(rota, depois){
     fetch(SERVIDOR + rota, {
@@ -41,7 +43,7 @@ function enviar(rota, corpo, depois){
 }
 
 function meuToken(){
-    var token = localStorage.getItem('token')
+    var token = localStorage.getItem(CHAVE_TOKEN)
 
     if(token == null){
         token = ''
@@ -63,9 +65,9 @@ function alternarTema(){
     var claro = document.body.classList.toggle('modo-claro')
 
     if(claro){
-        localStorage.setItem('temaSite', 'claro')
+        localStorage.setItem(CHAVE_TEMA, 'claro')
     }else{
-        localStorage.setItem('temaSite', 'escuro')
+        localStorage.setItem(CHAVE_TEMA, 'escuro')
     }
     atualizarBotaoTema()
 }
@@ -83,7 +85,7 @@ function atualizarBotaoTema(){
     }
 }
 
-if(localStorage.getItem('temaSite') == 'claro'){
+if(localStorage.getItem(CHAVE_TEMA) == 'claro'){
     document.body.classList.add('modo-claro')
 }
 
