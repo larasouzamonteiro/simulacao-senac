@@ -92,7 +92,7 @@ class NoticiasBD{
             return 'Escolha uma categoria.'
         }
 
-        if(noticia.imagem && !noticia.imagem.startsWith('data:image/')){
+        if(noticia.imagem && (typeof noticia.imagem !== 'string' || !noticia.imagem.startsWith('data:image/'))){
             return 'A foto precisa ser uma imagem.'
         }
 
